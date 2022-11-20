@@ -1,0 +1,20 @@
+module adder(q , qb , j ,k,clk , clr) ;
+
+input j , k , clk , clr ;
+output q , qb ;
+
+wire a , b , y , yb , c, d , clkb;
+
+nand(a , j , clk , qb , clr) ;
+nand(b , k , clk , q) ;
+nand(y , a , yb ) ;
+nand(yb , y , clr , b) ;
+
+not(clkb , clk) ;
+
+nand(c ,y, clkb ) ;
+nand(d , yb , clk) ;
+nand(q , c , qb) ;
+nand(qb , d , q , clr) ;
+
+endmodule 
