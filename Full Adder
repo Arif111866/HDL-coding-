@@ -1,0 +1,15 @@
+module adder (s , cout , a , b, c);
+
+input a , b , c ;
+output s , cout ;
+
+wire x ;
+xor(x , a , b) ;
+xor(s , x , c) ;
+
+wire i ,j ;
+and(i , x , c) ;
+and(j , a, b);
+or(cout , i ,j) ;
+
+endmodule 
