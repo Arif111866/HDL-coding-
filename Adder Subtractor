@@ -1,0 +1,36 @@
+module FAd (s , cout , a , b, c);
+
+input a , b , c ;
+output s , cout ;
+
+wire x ;
+xor(x , a , b) ;
+xor(s , x , c) ;
+
+wire i ,j ;
+and(i , x , c) ;
+and(j , a, b);
+or(cout , i ,j) ;
+
+endmodule 
+
+module AdderSub(sum,cout,a,b,m);
+
+input [3:0]a ,b ;
+input m ;
+
+output [3:0]sum ;
+output cout ;
+
+wire b0 , b2 , b3 , b4 ;
+  xor(b0 , m ,b[0] );
+  xor(b1 , m ,b[1] );
+  xor(b2 , m ,b[2] );
+  xor(b3 , m ,b[3] );
+
+wire c1 , c2, c3 ;
+	FAd f0(sum[0],c1 ,a[0],b0,m);
+	FAd f1(sum[1],c2 ,a[1],b1,c1);
+	FAd f2(sum[2],c3 ,a[2],b2,c2);
+	FAd f3(sum[3],cout ,a[3],b3,c3);
+endmodule
