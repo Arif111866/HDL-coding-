@@ -1,0 +1,36 @@
+module BCD_to_EX(ex , bcd);
+
+input  [3:0] bcd ;
+output [3:0] ex ;
+  
+wire b0 , b1 , b2 ;
+   not(b0 , bcd[0]) ;
+   not(b1 , bcd[1]) ;
+   not(b2 , bcd[2]) ;
+
+ //ex[0]
+  not(ex[0] , bcd[0]) ;
+
+//ex[1]
+  wire a , b ;
+  and(a , bcd[0] , bcd[1]) ;
+  and(b , b0 , b1) ;
+  or(ex[1] , a , b) ;
+
+//ex[2] 
+  wire c, d ,e ;
+  and(c , b2,bcd[1]);
+  and(d , b2 ,bcd[0]) ;
+  and(e , bcd[2] ,b) ;
+  or(ex[2] ,c, d, e);
+
+//ex[3]
+  wire i ,j ;
+  and(i , bcd[1] , bcd[2]) ;
+  and(j , bcd[0] , bcd[2]) ;
+  or(ex[3] , bcd[3] , i , j);
+
+endmodule
+
+
+
