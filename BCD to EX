@@ -1,4 +1,4 @@
-module BCD_to_EX(ex , bcd);
+module BCD_to_EX3(ex , bcd);
 
 input  [3:0] bcd ;
 output [3:0] ex ;
