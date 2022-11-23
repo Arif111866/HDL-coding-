@@ -1,0 +1,125 @@
+//# Synchronous counter code 1 ,
+module JKFF(q , qb , j ,k,clk , clr) ;
+
+input j , k , clk , clr ;
+output q , qb ;
+  wire a , b , c, d , e, f;
+  nand(a ,j , clk , clr , qb);
+  nand(b ,k , clk , q);
+  nand(c , a , d);
+  nand(d , b , c, clr);
+	wire clkb ;
+  not(clkb , clk);
+    nand(e ,c , clkb);
+    nand(f ,d, clkb);
+    nand(q, e, qb);
+    nand(qb ,q,f,clr);
+
+endmodule 
+
+module SynCounter(q,qb,clk,clr);
+input clk ,clr ;
+output [3:0]q,qb ;
+
+	//ja
+	wire ja , ja1 , ja2 ;
+	and(ja1 , q[3] , q[2] , qb[1]) ;
+	and(ja2 , qb[3] , qb[2] , qb[1]) ;
+	or(ja , ja1 , ja2) ;
+	//jb
+	 wire jb ;
+	 assign jb = (q[3]&q[2]) | (q[3]&q[0]) ;
+	//jc
+	wire jc , jc1 , jc2 , jc3 ;
+	and(jc1 , q[1] , q[0] , qb[3]) ;
+	and(jc2 , qb[3] , qb[1] , qb[0]) ;
+	and(jc3 , qb[1] , q[0] , q[3]) ;
+	or(jc, jc1, jc2, jc3) ;
+	//jd
+	wire jd , jd1, jd2, jd3 ;
+	and(jd1 , q[1] , qb[0] , q[2]) ;
+	and(jd2 , qb[1] , qb[0] , qb[2]) ;
+	and(jd3 , q[1] , q[0] , qb[2]) ;
+	or(jd , jd1 ,jd2,jd3);
+
+	//ka
+	wire ka, ka1, ka2, ka3 ;
+	and(ka1 , qb[3] , q[2]) ;
+	and(ka2 , q[2] , q[1]) ;
+	and(ka3 , qb[1] , qb[2]) ;
+	or(ka , ka1, ka2,ka3) ;
+	//kb ;
+	wire kb ; 
+	or(kb , qb[0] , q[3] , q[2]);
+	//kc 
+	wire kc ;
+	or(kc , qb[1] ,q[0] ,q[3]);
+	//kd
+	wire kd , kd1 ,kd2 ;
+	and(kd1 , qb[2] , qb[1]) ;
+	and(kd2 , q[2] , q[1]) ;
+	or(kd , qb[0] ,kd1, kd2);
+
+	JKFF f1(q[0] ,qb[0] , ja , ka, clk , clr) ;
+	JKFF f2(q[1] ,qb[1] , jb , kb, clk , clr) ;
+	JKFF f3(q[2] ,qb[2] , jc , kc, clk , clr) ;
+	JKFF f4(q[3] ,qb[3] , jd , kd, clk , clr) ;
+
+endmodule
+
+
+module JKFF(q , qb , j ,k,clk , clr) ;
+
+input j , k , clk , clr ;
+output q , qb ;
+  wire a , b , c, d , e, f;
+  nand(a ,j , clk , clr , qb);
+  nand(b ,k , clk , q);
+  nand(c , a , d);
+  nand(d , b , c, clr);
+	wire clkb ;
+  not(clkb , clk);
+    nand(e ,c , clkb);
+    nand(f ,d, clkb);
+    nand(q, e, qb);
+    nand(qb ,q,f,clr);
+
+endmodule 
+
+// Synchronous Counter code 2 ,
+module SynCounter(q,qb,clk,clr);
+input clk ,clr ;
+output [3:0]q,qb ;
+
+	//ja
+	wire ja  ;
+	assign ja = (q[3] & q[2] & qb[1]) | (qb[3] & qb[2] & qb[1]) ;
+	//jb
+	 wire jb ;
+	 assign jb = (q[3]&q[2]) | (q[3]&q[0]) ;
+	//jc
+	wire jc ;
+	assign jc = (q[1] & q[0] & qb[3]) | (qb[3] & qb[1] & qb[0]) | (qb[1] & q[0] & q[3]) ;
+	//jd
+	wire jd ;
+	assign jd = (q[1] & qb[0] & q[2]) | (qb[1] & qb[0] & qb[2]) | (q[1] & q[0] & qb[2]) ;
+
+	//ka
+	wire ka;
+	assign ka = (q[2] & qb[3]) | (qb[1] & qb[2]) | (qb[1] & qb[2]) ;
+	//kb ;
+	wire kb ; 
+	or(kb , qb[0] , q[3] , q[2]);
+	//kc 
+	wire kc ;
+	or(kc , qb[1] ,q[0] ,q[3]);
+	//kd
+	wire kd ;
+	assign kd = (qb[0]) | (qb[2] & qb[1]) | (q[1] & q[2]) ;
+
+	JKFF f1(q[0] ,qb[0] , ja , ka, clk , clr) ;
+	JKFF f2(q[1] ,qb[1] , jb , kb, clk , clr) ;
+	JKFF f3(q[2] ,qb[2] , jc , kc, clk , clr) ;
+	JKFF f4(q[3] ,qb[3] , jd , kd, clk , clr) ;
+
+endmodule
