@@ -18,3 +18,13 @@ nand(q , c , qb) ;
 nand(qb , d , q , clr) ;
 
 endmodule 
+
+module riple_counter(q,qb,clk,clr);
+input clk ,clr ;
+output [3:0]q,qb ;  
+   JKFF f1(q[0] ,qb[0] , 1, 1, clk , clr);
+   JKFF f2(q[1] ,qb[1] , 1, 1, q[0] , clr);
+   JKFF f3(q[2] ,qb[2] , 1, 1, q[1] , clr);
+   JKFF f4(q[3] ,qb[3] , 1, 1, q[2] , clr);
+
+endmodule
