@@ -1,0 +1,38 @@
+module JKFF(q , qb , j ,k,clk , clr) ;
+
+input j , k , clk , clr ;
+output q , qb ;
+  wire a , b , c, d , e, f;
+  nand(a ,j , clk , clr , qb);
+  nand(b ,k , clk , q);
+  nand(c , a , d);
+  nand(d , b , c, clr);
+wire clkb ;
+  not(clkb , clk);
+    nand(e ,c , clkb);
+    nand(f ,d, clkb);
+    nand(q, e, qb);
+    nand(qb ,q,f,clr);
+
+endmodule 
+
+module threeBitSynCounter(q,qb,clk,clr,m);
+input clk ,clr,m;
+output [2:0]q,qb ;
+       
+	wire mb ;
+	not(mb , m);
+	
+	wire  jb , jc ;
+	//jb
+	xor(jb , m ,q[0]);
+	//jc
+	wire a, b ;
+	and(a , mb , q[0] ,q[1]);
+	and(b , m , qb[0],qb[1]);
+	or(jc , a, b);
+
+       JKFF f1(q[0] ,qb[0] , 1 , 1, clk,clr);
+       JKFF f2(q[1] ,qb[1] , jb , jb, clk,clr);
+       JKFF f3(q[2] ,qb[2] , jc , jc, clk,clr);
+endmodule
